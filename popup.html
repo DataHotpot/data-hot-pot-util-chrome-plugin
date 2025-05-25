@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Data Hot Pot - 开发者工具集</title>
+    <link href="styles/popup.css" rel="stylesheet">
+</head>
+<body class="full-page">
+    <div class="container">
+        <div class="sidebar">
+            <div class="tool-group">
+                <div class="tool-title" data-toggle="collapse">
+                    <span class="collapse-icon">▼</span>
+                    JSON工具
+                </div>
+                <div class="tool-content">
+                    <button class="tool-btn active" data-tool="json">
+                        <span class="icon">⚯</span> JSON处理
+                    </button>
+                    <button class="tool-btn" data-tool="jsonCompare">
+                        <span class="icon">⚖</span> JSON对比
+                    </button>
+                </div>
+            </div>
+            <div class="tool-group">
+                <div class="tool-title" data-toggle="collapse">
+                    <span class="collapse-icon">▼</span>
+                    编码转换
+                </div>
+                <div class="tool-content">
+                    <button class="tool-btn" data-tool="base64">
+                        <span class="icon">⚡</span> Base64
+                    </button>
+                </div>
+            </div>
+            <div class="tool-group">
+                <div class="tool-title" data-toggle="collapse">
+                    <span class="collapse-icon">▼</span>
+                    时间工具
+                </div>
+                <div class="tool-content">
+                    <button class="tool-btn" data-tool="time">
+                        <span class="icon">⌚</span> 时间转换
+                    </button>
+                    <button class="tool-btn" data-tool="cron">
+                        <span class="icon">📅</span> Cron表达式
+                    </button>
+                </div>
+            </div>
+            <div class="tool-group">
+                <div class="tool-title" data-toggle="collapse">
+                    <span class="collapse-icon">▼</span>
+                    Go工具集
+                </div>
+                <div class="tool-content">
+                    <button class="tool-btn" data-tool="goStruct">
+                        <span class="icon">🔄</span> JSON转Struct
+                    </button>
+                    <button class="tool-btn" data-tool="goTime">
+                        <span class="icon">⏱</span> 时间格式化
+                    </button>
+                    <button class="tool-btn" data-tool="goError">
+                        <span class="icon">❌</span> error处理
+                    </button>
+                    <button class="tool-btn" data-tool="goInterface">
+                        <span class="icon">🔌</span> 接口生成
+                    </button>
+                </div>
+            </div>
+            <div class="tool-group">
+                <div class="tool-title" data-toggle="collapse">
+                    <span class="collapse-icon">▼</span>
+                    Java工具集
+                </div>
+                <div class="tool-content">
+                    <button class="tool-btn" data-tool="javaBean">
+                        <span class="icon">🔄</span> JSON转JavaBean
+                    </button>
+                    <button class="tool-btn" data-tool="javaBuilder">
+                        <span class="icon">🏗️</span> Builder生成
+                    </button>
+                    <button class="tool-btn" data-tool="javaLombok">
+                        <span class="icon">🎯</span> Lombok注解
+                    </button>
+                    <button class="tool-btn" data-tool="javaStream">
+                        <span class="icon">🌊</span> Stream示例
+                    </button>
+                </div>
+            </div>
+            <div class="support-info">
+                技术支持 <a href="https://github.com/DataHotpot" target="_blank">@DataHotpot</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- JSON处理面板 -->
+            <div class="tool-panel active" id="jsonPanel">
+                <div class="toolbar">
+                    <button class="action-btn" id="formatJson">格式化</button>
+                    <button class="action-btn" id="compressJson">压缩</button>
+                    <button class="action-btn" id="validateJson">验证</button>
+                </div>
+                <div class="editor-container">
+                    <div class="editor-wrapper">
+                        <div class="editor-header">JSON输入</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="lineNumbers"></div>
+                            <textarea id="jsonInput" class="code-editor" placeholder="请输入JSON..."></textarea>
+                        </div>
+                    </div>
+                    <div class="preview-wrapper">
+                        <div class="editor-header">树形视图</div>
+                        <div id="jsonTree" class="tree-view"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JSON对比面板 -->
+            <div class="tool-panel" id="jsonComparePanel">
+                <div class="toolbar">
+                    <button class="action-btn" id="compareJson">对比</button>
+                    <button class="action-btn" id="formatBothJson">格式化</button>
+                </div>
+                <div class="compare-container">
+                    <div class="editor-wrapper">
+                        <div class="editor-header">原始JSON</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="originalLineNumbers"></div>
+                            <textarea id="originalJson" class="code-editor" placeholder="请输入原始JSON..."></textarea>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-header">目标JSON</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="targetLineNumbers"></div>
+                            <textarea id="targetJson" class="code-editor" placeholder="请输入目标JSON..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="diff-result" id="diffResult"></div>
+            </div>
+
+            <!-- Base64面板 -->
+            <div class="tool-panel" id="base64Panel">
+                <div class="toolbar">
+                    <button class="action-btn" id="encodeBase64">编码</button>
+                    <button class="action-btn" id="decodeBase64">解码</button>
+                </div>
+                <div class="base64-container">
+                    <div class="editor-wrapper">
+                        <div class="editor-header">输入文本</div>
+                        <textarea id="base64Input" class="code-editor" placeholder="请输入要转换的文本..."></textarea>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-header">转换结果</div>
+                        <textarea id="base64Output" class="code-editor" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 时间转换面板 -->
+            <div class="tool-panel" id="timePanel">
+                <div class="toolbar">
+                    <select id="timezone" class="timezone-select">
+                        <option value="UTC">世界标准-格林威治(UTC)</option>
+                        <!-- 东亚 -->
+                        <option value="Asia/Shanghai">中国-北京(CN-BJS)</option>
+                        <option value="Asia/Hong_Kong">中国香港(HK-HKG)</option>
+                        <option value="Asia/Macau">中国澳门(MO-MFM)</option>
+                        <option value="Asia/Taipei">中国台湾-台北(TW-TPE)</option>
+                        <option value="Asia/Tokyo">日本-东京(JP-TYO)</option>
+                        <option value="Asia/Seoul">韩国-首尔(KR-SEL)</option>
+                        <!-- 东南亚 -->
+                        <option value="Asia/Singapore">新加坡-新加坡(SG-SGP)</option>
+                        <option value="Asia/Bangkok">泰国-曼谷(TH-BKK)</option>
+                        <option value="Asia/Jakarta">印度尼西亚-雅加达(ID-JKT)</option>
+                        <option value="Asia/Kuala_Lumpur">马来西亚-吉隆坡(MY-KUL)</option>
+                        <option value="Asia/Manila">菲律宾-马尼拉(PH-MNL)</option>
+                        <option value="Asia/Ho_Chi_Minh">越南-胡志明市(VN-SGN)</option>
+                        <option value="Asia/Yangon">缅甸-仰光(MM-RGN)</option>
+                        <option value="Asia/Phnom_Penh">柬埔寨-金边(KH-PNH)</option>
+                        <!-- 南亚 -->
+                        <option value="Asia/Kolkata">印度-新德里(IN-DEL)</option>
+                        <option value="Asia/Colombo">斯里兰卡-科伦坡(LK-CMB)</option>
+                        <option value="Asia/Dhaka">孟加拉-达卡(BD-DAC)</option>
+                        <option value="Asia/Kathmandu">尼泊尔-加德满都(NP-KTM)</option>
+                        <!-- 中亚 -->
+                        <option value="Asia/Almaty">哈萨克斯坦-阿拉木图(KZ-ALA)</option>
+                        <option value="Asia/Tashkent">乌兹别克斯坦-塔什干(UZ-TAS)</option>
+                        <!-- 西亚 -->
+                        <option value="Asia/Dubai">阿联酋-迪拜(AE-DXB)</option>
+                        <option value="Asia/Qatar">卡塔尔-多哈(QA-DOH)</option>
+                        <option value="Asia/Jerusalem">以色列-耶路撒冷(IL-JRS)</option>
+                        <!-- 欧洲 -->
+                        <option value="Europe/Moscow">俄罗斯-莫斯科(RU-MOW)</option>
+                        <option value="Europe/London">英国-伦敦(GB-LON)</option>
+                        <option value="Europe/Paris">法国-巴黎(FR-PAR)</option>
+                        <option value="Europe/Berlin">德国-柏林(DE-BER)</option>
+                        <option value="Europe/Rome">意大利-罗马(IT-ROM)</option>
+                        <option value="Europe/Madrid">西班牙-马德里(ES-MAD)</option>
+                        <option value="Europe/Amsterdam">荷兰-阿姆斯特丹(NL-AMS)</option>
+                        <option value="Europe/Brussels">比利时-布鲁塞尔(BE-BRU)</option>
+                        <option value="Europe/Vienna">奥地利-维也纳(AT-VIE)</option>
+                        <!-- 美洲 -->
+                        <option value="America/New_York">美国-纽约(US-NYC)</option>
+                        <!-- 大洋洲 -->
+                        <option value="Australia/Sydney">澳大利亚-悉尼(AU-SYD)</option>
+                    </select>
+                </div>
+                <div class="time-container">
+                    <div class="time-group">
+                        <div class="time-label-group">
+                            <label>时间戳</label>
+                            <span class="unit-label" id="timestampUnit">毫秒</span>
+                        </div>
+                        <div class="timestamp-wrapper">
+                            <input type="number" id="timestamp" class="time-input" placeholder="时间戳...">
+                            <div class="timestamp-switch">
+                                <label class="switch">
+                                    <input type="checkbox" id="timestampFormat" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                <span class="switch-label" id="timestampFormatLabel">毫秒</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="time-group">
+                        <label>日期时间</label>
+                        <input type="datetime-local" id="datetime" class="time-input">
+                    </div>
+                    <div class="time-group">
+                        <label>格式化时间</label>
+                        <input type="text" id="formattedTime" class="time-input" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cron表达式面板 -->
+            <div class="tool-panel" id="cronPanel">
+                <div class="toolbar">
+                    <button class="action-btn" id="parseCron">解析</button>
+                    <button class="action-btn" id="getNextTimes">获取最近5次执行时间</button>
+                </div>
+                <div class="cron-container">
+                    <div class="cron-input-group">
+                        <label>Cron表达式</label>
+                        <input type="text" id="cronInput" class="cron-input" placeholder="例如: * * * * *">
+                        <div class="cron-format-hint">格式：分 时 日 月 周</div>
+                    </div>
+                    <div class="cron-examples">
+                        <div class="example-title">常用示例：</div>
+                        <div class="example-item" data-cron="* * * * *">每分钟: * * * * *</div>
+                        <div class="example-item" data-cron="0 * * * *">每小时: 0 * * * *</div>
+                        <div class="example-item" data-cron="0 0 * * *">每天零点: 0 0 * * *</div>
+                        <div class="example-item" data-cron="0 0 * * 1">每周一零点: 0 0 * * 1</div>
+                        <div class="example-item" data-cron="0 0 1 * *">每月1号零点: 0 0 1 * *</div>
+                    </div>
+                    <div class="cron-result">
+                        <div class="result-group">
+                            <label>表达式含义</label>
+                            <div id="cronDescription" class="result-content"></div>
+                        </div>
+                        <div class="result-group">
+                            <label>最近执行时间</label>
+                            <div id="nextExecutions" class="result-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Go Struct转换面板 -->
+            <div class="tool-panel" id="goStructPanel">
+                <div class="toolbar">
+                    <button class="action-btn" id="convertToStruct">转换为Struct</button>
+                    <select id="goStructTags" class="select-input">
+                        <option value="json">json</option>
+                        <option value="json,omitempty">json,omitempty</option>
+                        <option value="json,form">json,form</option>
+                        <option value="json,form,gorm">json,form,gorm</option>
+                    </select>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="usePointer"> 使用指针类型
+                    </label>
+                </div>
+                <div class="editor-container">
+                    <div class="editor-wrapper">
+                        <div class="editor-header">JSON输入</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="goJsonLineNumbers"></div>
+                            <textarea id="goJsonInput" class="code-editor" placeholder="请输入JSON..."></textarea>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-header">Go Struct输出</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="goStructLineNumbers"></div>
+                            <textarea id="goStructOutput" class="code-editor" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Go时间格式化面板 -->
+            <div class="tool-panel" id="goTimePanel">
+                <div class="toolbar">
+                    <select id="goTimeFormat" class="select-input">
+                        <option value="2006-01-02 15:04:05">标准时间格式</option>
+                        <option value="2006/01/02 15:04:05">斜线日期格式</option>
+                        <option value="2006-01-02">仅日期</option>
+                        <option value="15:04:05">仅时间</option>
+                        <option value="20060102150405">紧凑格式</option>
+                    </select>
+                </div>
+                <div class="time-container">
+                    <div class="time-group">
+                        <label>Go格式化字符串</label>
+                        <input type="text" id="goTimeString" class="time-input" readonly>
+                    </div>
+                    <div class="time-group">
+                        <label>示例输出</label>
+                        <input type="text" id="goTimeExample" class="time-input" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Go error处理面板 -->
+            <div class="tool-panel" id="goErrorPanel">
+                <div class="toolbar">
+                    <button class="action-btn" id="generateErrorHandler">生成处理代码</button>
+                    <select id="errorHandleType" class="select-input">
+                        <option value="wrap">错误包装 (fmt.Errorf)</option>
+                        <option value="custom">自定义错误</option>
+                        <option value="sentinel">哨兵错误</option>
+                    </select>
+                </div>
+                <div class="editor-container">
+                    <div class="editor-wrapper">
+                        <div class="editor-header">错误处理输入</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="goErrorLineNumbers"></div>
+                            <textarea id="goErrorInput" class="code-editor" placeholder="请输入需要处理错误的Go代码..."></textarea>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-header">处理后代码</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="goErrorOutputLineNumbers"></div>
+                            <textarea id="goErrorOutput" class="code-editor" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Go接口生成面板 -->
+            <div class="tool-panel" id="goInterfacePanel">
+                <div class="toolbar">
+                    <button class="action-btn" id="generateInterface">生成接口</button>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="includeComments"> 包含注释
+                    </label>
+                </div>
+                <div class="editor-container">
+                    <div class="editor-wrapper">
+                        <div class="editor-header">结构体代码</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="goStructInputLineNumbers"></div>
+                            <textarea id="goStructInput" class="code-editor" placeholder="请输入Go结构体代码..."></textarea>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-header">生成的接口</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="goInterfaceOutputLineNumbers"></div>
+                            <textarea id="goInterfaceOutput" class="code-editor" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Java Bean转换面板 -->
+            <div class="tool-panel" id="javaBeanPanel">
+                <div class="toolbar">
+                    <button class="action-btn" id="convertToJavaBean">转换为JavaBean</button>
+                    <select id="javaBeanOptions" class="select-input">
+                        <option value="basic">基础Bean</option>
+                        <option value="lombok">使用Lombok</option>
+                        <option value="jackson">使用Jackson注解</option>
+                        <option value="swagger">使用Swagger注解</option>
+                    </select>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="generateComments"> 生成注释
+                    </label>
+                </div>
+                <div class="editor-container">
+                    <div class="editor-wrapper">
+                        <div class="editor-header">JSON输入</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="javaJsonLineNumbers"></div>
+                            <textarea id="javaJsonInput" class="code-editor" placeholder="请输入JSON..."></textarea>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-header">Java Bean输出</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="javaBeanLineNumbers"></div>
+                            <textarea id="javaBeanOutput" class="code-editor" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Builder生成面板 -->
+            <div class="tool-panel" id="javaBuilderPanel">
+                <div class="toolbar">
+                    <button class="action-btn" id="generateBuilder">生成Builder</button>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="builderInnerClass" checked> 内部类Builder
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="builderFluentStyle" checked> 链式调用
+                    </label>
+                </div>
+                <div class="editor-container">
+                    <div class="editor-wrapper">
+                        <div class="editor-header">Java类输入</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="javaClassLineNumbers"></div>
+                            <textarea id="javaClassInput" class="code-editor" placeholder="请输入Java类代码..."></textarea>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-header">Builder代码输出</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="javaBuilderLineNumbers"></div>
+                            <textarea id="javaBuilderOutput" class="code-editor" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lombok注解面板 -->
+            <div class="tool-panel" id="javaLombokPanel">
+                <div class="toolbar">
+                    <button class="action-btn" id="addLombokAnnotations">添加注解</button>
+                    <div class="lombok-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="lombok" value="@Data" checked> @Data
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="lombok" value="@Builder"> @Builder
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="lombok" value="@AllArgsConstructor"> @AllArgsConstructor
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="lombok" value="@NoArgsConstructor"> @NoArgsConstructor
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="lombok" value="@Slf4j"> @Slf4j
+                        </label>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <div class="editor-wrapper">
+                        <div class="editor-header">Java类输入</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="javaLombokInputLineNumbers"></div>
+                            <textarea id="javaLombokInput" class="code-editor" placeholder="请输入Java类代码..."></textarea>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-header">添加Lombok后的代码</div>
+                        <div class="editor-content">
+                            <div class="line-numbers" id="javaLombokOutputLineNumbers"></div>
+                            <textarea id="javaLombokOutput" class="code-editor" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stream示例面板 -->
+            <div class="tool-panel" id="javaStreamPanel">
+                <div class="toolbar">
+                    <select id="streamExampleType" class="select-input">
+                        <option value="filter">过滤 (filter)</option>
+                        <option value="map">映射 (map)</option>
+                        <option value="collect">收集 (collect)</option>
+                        <option value="reduce">归约 (reduce)</option>
+                        <option value="grouping">分组 (groupingBy)</option>
+                        <option value="flatMap">扁平化 (flatMap)</option>
+                    </select>
+                </div>
+                <div class="stream-example-container">
+                    <div class="example-description"></div>
+                    <div class="example-code"></div>
+                    <div class="example-result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/popup.js"></script>
+</body>
+</html> 
