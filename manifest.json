@@ -3,18 +3,7 @@
     "name": "Data Hot Pot",
     "description": "开发者工具集 - JSON处理、Base64转换、时间转换等",
     "version": "1.0",
-    "action": {
-        "default_icon": {
-            "16": "images/icon16.png",
-            "48": "images/icon48.png",
-            "128": "images/icon128.png"
-        }
-    },
-    "icons": {
-        "16": "images/icon16.png",
-        "48": "images/icon48.png",
-        "128": "images/icon128.png"
-    },
+    "action": {},
     "background": {
         "service_worker": "background.js"
     },
