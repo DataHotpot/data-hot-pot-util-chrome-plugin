@@ -102,6 +102,7 @@ body.full-page {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-height: 0;
 }
 
 .toolbar {
@@ -133,6 +134,7 @@ body.full-page {
     gap: 1px;
     background-color: #e9ecef;
     overflow: hidden;
+    min-height: 0;
 }
 
 .editor-wrapper {
@@ -143,6 +145,7 @@ body.full-page {
     border: 1px solid #e9ecef;
     border-radius: 4px;
     overflow: hidden;
+    min-height: 0;
 }
 
 .editor-header {
@@ -158,6 +161,8 @@ body.full-page {
     flex: 1;
     position: relative;
     background-color: white;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .line-numbers {
@@ -195,6 +200,9 @@ body.full-page {
     position: relative;
     z-index: 0;
     background: transparent;
+    min-height: 0;
+    max-height: none;
+    height: auto;
 }
 
 .code-editor:focus {
