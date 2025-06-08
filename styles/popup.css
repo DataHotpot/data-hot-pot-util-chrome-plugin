@@ -673,5 +673,31 @@ input:checked + .slider:before {
 }
 
 .support-info a:hover {
-    color: #2980b9;
+    color: #3498db;
+}
+
+/* 数据状态指示器样式 */
+.data-status {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.data-status small {
+    color: #95a5a6;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* 自动保存状态动画 */
+@keyframes saveIndicator {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+.data-status.saving small {
+    animation: saveIndicator 1s ease-in-out;
 } 

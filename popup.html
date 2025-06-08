@@ -498,6 +498,20 @@
             </div>
         </div>
     </div>
+    
+    <!-- 数据持久化功能说明（隐藏的帮助提示） -->
+    <div id="helpTooltip" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #2c3e50; color: white; padding: 15px; border-radius: 8px; max-width: 300px; font-size: 12px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+        <div style="font-weight: bold; margin-bottom: 8px;">💾 数据自动保存功能</div>
+        <div style="margin-bottom: 6px;">• 所有输入内容自动保存</div>
+        <div style="margin-bottom: 6px;">• 配置选项自动记忆</div>
+        <div style="margin-bottom: 6px;">• 下次打开自动恢复</div>
+        <div style="margin-bottom: 8px;">• 无需手动操作</div>
+        <div style="font-size: 11px; color: #bdc3c7;">
+            快捷键：Ctrl+S 确认保存状态
+        </div>
+        <button onclick="this.parentElement.style.display='none'" style="position: absolute; top: 5px; right: 8px; background: none; border: none; color: white; cursor: pointer; font-size: 16px;">×</button>
+    </div>
+    
     <script src="js/popup.js"></script>
 </body>
 </html> 
